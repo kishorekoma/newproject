@@ -1,0 +1,15 @@
+sudo: required
+
+services:
+    - docker
+
+before_install:
+    - docker build -t kishorekoma/nodejsapp . 
+
+script:
+    - docker run kishorekoma/nodejsapp  npm ls
+
+after_success:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+    - docker push kishorekoma/nodejsapp
